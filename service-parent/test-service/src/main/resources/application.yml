@@ -1,0 +1,19 @@
+spring:
+  profiles:
+    active: dev
+  application:
+    name: zm-test-service
+server:
+  port: 10010
+mybatis-plus:
+  # maven 多模块 用classpath*
+  mapper-locations: classpath*:mapper/*.xml
+  configuration:
+    mapUnderscoreToCamelCase: true
+  global-config:
+    db-config:
+      # 配置主键自增
+      id-type: AUTO
+logging:
+  level:
+    com.hhx.mybatis.plus.mapper: DEBUG

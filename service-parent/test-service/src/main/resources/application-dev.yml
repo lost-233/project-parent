@@ -1,0 +1,31 @@
+spring:
+  datasource:
+      url: jdbc:mysql://47.104.192.107:3306/base_data?useSSL=false&characterEncoding=utf-8&allowMultiQueries=true
+      type: com.zaxxer.hikari.HikariDataSource
+      driver-class-name: com.mysql.jdbc.Driver
+      hikari:
+        username: root
+        password: jbt1234
+        dataSourceProperties:
+          cachePrepStmts: true
+          prepStmtCacheSize: 250
+          prepStmtCacheSqlLimit: 2048
+        minimum-idle: 2
+        maximum-pool-size: 5
+eureka:
+  instance:
+    hostname: ${spring.cloud.client.ipAddress}
+    prefer-ip-address: true
+    #eureka显示的地址
+    instance-id: ${spring.application.name}:${eureka.instance.hostname}:${server.port}
+   #服务名调用时
+    ip-address: ${eureka.instance.hostname}
+  client:
+    serviceUrl:
+      defaultZone: http://zm:zm19950230@localhost:10000/eureka/
+feign:
+  client:
+    config:
+      zm-test-service:
+        connectTimeout: 30000
+        readTimeout: 30000

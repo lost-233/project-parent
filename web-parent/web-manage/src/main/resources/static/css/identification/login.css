@@ -1,0 +1,93 @@
+body {
+	background:#FFF;
+	}
+.main {
+	
+	}
+.content {
+	width:1180px;
+	margin:90px auto 0px auto;
+	}
+.content .banner {
+	width:614px;
+	float:left;
+	text-align:center;
+	font:bold 42px "宋体";
+	color:#333333;
+	}
+.content .login {
+	width:420px;
+	height:440px;
+	box-shadow:0px 0px 10px #ACABAB;
+	float:right;
+	}
+.login p{
+	text-align:center;
+	margin-top:35px;
+	font:bold 24px "宋体";
+	color:#333;
+	margin-bottom:40px;
+	}
+.login form.form-login {
+	width:356px;
+	margin:0px auto;
+	}
+.login input{
+    font-size: 14px;
+	height: 36px;
+	margin-bottom:20px;
+	background:#FFF;
+	border-radius:5px;
+}
+.login input.input_comm{ 
+	width:356px;
+	border: 1px solid #C3C3C3;	
+	color:#999;
+	padding:0 0 0 50px; 
+}
+
+.login input.input_comm2{ 
+	width:254px;
+	border: 1px solid #C3C3C3;	
+	color:#999;
+	padding:0 0 0 50px; 
+}
+.login li.code  {
+	 width:356px;
+	}
+.login li.code img {
+	float:right;
+	margin-top:0px;
+	border:1px solid #C3C3C3ed;
+	border-radius:5px;
+	}
+
+.login input.input_yh{background:url(../images/login_yonghu.jpg) no-repeat left top;}
+.login input.input_mm{background:url(../images/login_mima.jpg) no-repeat left top;}
+.login input.input_code{background:url(../images/login_code.jpg) no-repeat left top;}
+
+.login input.input_yh:focus{background:url(../images/login_yonghu2.jpg) no-repeat left top;border:1px solid #EC6D00 }
+.login input.input_mm:focus{background:url(../images/login_mima2.jpg) no-repeat left top;border:1px solid #EC6D00}
+.login input.input_code:focus{background:url(../images/login_code2.jpg) no-repeat left top;border:1px solid #EC6D00}
+
+
+.login input.button {
+	width: 356px;
+	height: 38px;
+	background:#EC6D00;
+	color:#FFF;
+	cursor:pointer;
+	border:none
+	}
+
+
+.bottom {
+	width:1180px;
+	margin:40px auto 0px auto;
+	text-align:center;
+	color:#33333;
+	font-size:14px;
+	}
+
+
+.login .form-login ul li h1{font-weight: normal;color: #ff0000;background: url(../images/icon.png)no-repeat 95px -28px;font-size: 12px;padding-left: 120px;padding-top: 6px;margin: 3px 0px 0px -30px;border:2px solid red}

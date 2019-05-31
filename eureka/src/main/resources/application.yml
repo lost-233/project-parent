@@ -1,0 +1,22 @@
+server:
+  port: 10000                    # 指定该Eureka实例的端口
+eureka:
+  client:
+    registerWithEureka: false
+    fetchRegistry: false
+    serviceUrl:
+      defaultZone: http://localhost:10000/eureka/
+  server:
+    enableSelfPreservation: false  #注册中心关闭自我保护机制
+    eviction-interval-timer-in-ms: 6000  #修改检查失效服务的时间
+#    lease-expiration-duration-in-seconds: 10  #微服务修改减短服务心跳的时间默认90秒
+#    lease-renewal-interval-in-seconds: 3  #微服务修改减短服务心跳的时间默认30秒
+security:
+  basic:
+    enabled: true
+  user:
+    name: zm
+    password: zm19950230
+
+# 参考文档：http://projects.spring.io/spring-cloud/docs/1.0.3/spring-cloud.html#_standalone_mode
+# 参考文档：http://my.oschina.net/buwei/blog/618756

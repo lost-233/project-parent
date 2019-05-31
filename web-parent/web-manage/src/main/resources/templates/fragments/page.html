@@ -1,0 +1,83 @@
+<div data-th-fragment="pagination">
+    <div style="float:left">
+        <div id="dataTables_info" class="dataTables_info" role="status" aria-live="polite">
+        </div>
+    </div>
+    <div style="float:right">
+        <div class="dataTables_paginate paging_simple_numbers" id="paginate_container">
+        </div>
+    </div>
+    <script data-th-src="@{/js/jquery.pagination.js}"></script>
+    <script>
+        var page = {
+            pageNum: 1,
+            pageSize: 10
+        };
+
+        function getCondition() {
+            let condition = {};
+            let params = $("#form").serializeArray();
+            for (index in params) {
+                var value = params[index].value;
+                //定义被忽略的值 - 999为Select 的无效值,筛选时无需提交该字段
+                if (value != -999 && value.trim() != '') condition[params[index].name] = value;
+            }
+            condition.pageNum = page.pageNum;
+            condition.pageNumber = page.pageNum;
+            condition.pageSize = page.pageSize;
+            return condition;
+        }
+
+        function loadPagination(total, pageNum) {
+            if (0 == total) {
+                return false;
+            }
+            page.pageNum = pageNum;
+            $('#paginate_container').pagination({
+                prevContent: '上页',
+                nextContent: '下页',
+                homePage: '首页',
+                endPage: '尾页',
+                jump: false,
+                totalData: total,
+                current: pageNum,
+                showData: 10,
+                count: 3,
+                isHide: true,
+                coping: true,
+            }, function (api) {
+                $('#dataTables_info').text("共 " + api.getPageCount() + " 页，当前是第 " + api.getCurrent() + " 页。");
+            });
+            $("#paginate_container").on("click", ".jump-btn", function () {
+                console.log(page);
+                page.pageNum = $(".jump-ipt").first().val();
+                console.log(page);
+                return false;
+                $("#query").click();
+            })
+            $("#paginate_container").on("click", ".next", function () {
+                page.pageNum = page.pageNum + 1;
+                $("#query").click();
+            })
+            $("#paginate_container").on("click", ".prev", function () {
+                page.pageNum = page.pageNum - 1;
+                $("#query").click();
+            })
+            $("#paginate_container").on("click", "a[data-page]", function () {
+                page.pageNum = parseInt($(this).attr("data-page"));
+                $("#query").click();
+            })
+            $(".condition").change(function () {
+                page.pageNum = 1;
+            })
+        }
+
+        //刷新列表和分页信息 -- 重新加载当前页
+        $("#query").click(function () {
+            let condition = getCondition();
+            var url = $("li.menu-item.active").attr('data-url');
+            loadPage(url, condition);
+            return false;
+        })
+    </script>
+</div>

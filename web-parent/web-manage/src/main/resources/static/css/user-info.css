@@ -1,0 +1,28 @@
+/***表格---start***/
+tbody tr {
+    background:#FAFAFA;
+}
+tr.ywowl {
+    line-height:40px;
+    background:#ec6d00;
+    color:#fff;
+    font-size:15px;
+    font-weight:normal;
+}
+table.tanchutable tbody tr {
+    line-height:40px;
+    font-size:14px;
+}
+
+.ywowl th, .ywowl td{
+    line-height:40px;
+    min-height:40px;
+    padding:0px 15px;
+    position:relative;
+
+    word-break:break-all;
+    text-align:center;
+}
+
+
+/***表格--end***/

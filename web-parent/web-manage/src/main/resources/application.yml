@@ -1,0 +1,43 @@
+spring:
+  profiles:
+    active: dev
+  application:
+    name: zm-web-manage
+  thymeleaf:
+    mode: HTML5
+    cache: false
+  http:
+    multipart:
+      max-file-size: 100Mb
+      max-request-size: 100Mb
+mybatis-plus:
+  # maven 多模块 用classpath*
+  mapper-locations: classpath*:mapper/*.xml
+  configuration:
+    mapUnderscoreToCamelCase: true
+  global-config:
+    db-config:
+      # 配置主键自增
+      id-type: AUTO
+server:
+  port: 9015
+eureka:
+  instance:
+    hostname: ${spring.cloud.client.ipAddress}
+    prefer-ip-address: true
+    #eureka显示的地址
+    instance-id: ${spring.application.name}:${eureka.instance.hostname}:${server.port}
+    #服务名调用时
+    ip-address: ${eureka.instance.hostname}
+management:
+  security:
+    enabled: false
+feign:
+  client:
+    config:
+      zm-test-service:
+        connectTimeout: 60000
+        readTimeout: 60000
+      zm-test-platform:
+        connectTimeout: 60000
+        readTimeout: 60000

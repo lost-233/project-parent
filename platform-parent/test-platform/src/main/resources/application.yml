@@ -1,0 +1,32 @@
+spring:
+  application:
+    name: zm-test-platform
+  http:
+    multipart:
+      max-file-size: 100Mb
+      max-request-size: 100Mb
+server:
+  port: 9010
+  connection-timeout: 120000
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://zm:zm19950230@localhost:10000/eureka/
+  instance:
+    hostname: ${spring.cloud.client.ipAddress}
+    prefer-ip-address: true
+    #eureka显示的地址
+    instance-id: ${spring.application.name}:${eureka.instance.hostname}:${server.port}
+    # lease-renewal-interval-in-seconds: 60
+    # lease-expiration-duration-in-seconds: 120
+management:
+  security:
+    enabled: false
+feign:
+  client:
+    config:
+      zm-test-service:
+        connectTimeout: 120000
+        readTimeout: 120000
+  httpclient:
+    connection-timeout: 60000

@@ -1,0 +1,56 @@
+<div class="box">
+    <div class="box-header hide">
+        <form id="form" class="form-inline" data-th-object="${condition}">
+            <div class="form-group">
+                <button id="query" type="submit" class="btn btn-primary">查询</button>
+            </div>
+        </form>
+    </div>
+    <div data-th-if="${#lists.isEmpty(page.list)}">
+        <div data-th-replace="fragments/empty :: empty"></div>
+    </div>
+    <div data-th-if="${not #lists.isEmpty(page.list)}" class="card-body">
+        <table class="table table-striped table-bordered text-center">
+            <thead>
+                <tr>
+                    <th>登录名</th>
+                    <th>登录密码</th>
+                    <th>真实姓名</th>
+                    <th>联系方式</th>
+                    <th>状态</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr data-th-each="manager,sta : ${page.list}"
+                    data-th-object="${manager}">
+                    <td data-th-text="*{username}"></td>
+                    <td data-th-text="*{password}"></td>
+                    <td data-th-text="*{realName}"></td>
+                    <td data-th-text="*{tel}"></td>
+                    <td data-th-text="*{enabled?'正常':'禁用'}">状态</td>
+                    <td data-th-attr="data-id=*{id}">
+                        <a class="update-manager"
+                           href="javascript:void(0)"> 编辑 </a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div data-th-replace="fragments/page :: pagination"></div>
+    <div class="box-footer" style="margin: 1rem">
+        <button style="float:left" id="add-manager" class="btn btn-primary">添加管理员</button>
+    </div>
+</div>
+<script>
+    $(function(){
+        $("#title").text("管理员列表");
+        loadPagination([[${page.total}]],[[${page.pageNum}]]);
+        $("#add-manager").click(function(){
+            loadPage("/manager/add");
+        });
+        $(".update-manager").click(function(){
+            loadPage("/manager/update/"+ $(this).parent().attr("data-id"));
+        });
+    });
+</script>

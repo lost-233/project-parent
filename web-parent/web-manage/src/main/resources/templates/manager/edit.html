@@ -1,0 +1,154 @@
+<div class="box" data-th-object="${model.manager}">
+    <form role="form" id="form-manager">
+        <input data-th-if="*{id != null}" type="hidden" name="id" data-th-value="*{id}">
+        <div class="box-header">
+            <h3 class="card-title" data-th-text="*{id == null?'添加管理员信息':'修改管理员信息'}"></h3>
+        </div>
+        <div class="box-body">
+            <div class="form-group">
+                <label for="username">登录名称</label>
+                <input name="username" class="form-control" id="username" required
+                       data-th-readonly="*{id != null}"
+                       placeholder="请输入登录名" data-th-value="*{username}">
+            </div>
+            <div class="form-group">
+                <label for="password">登录密码</label>
+                <input type="password" name="password" class="form-control" id="password" required
+                       data-th-readonly="*{id != null}"
+                       placeholder="请输入密码" data-th-value="*{password}">
+            </div>
+            <div class="form-group">
+                <label for="password-repeat">确认密码</label>
+                <input type="password" class="form-control" id="password-repeat" required
+                       data-th-readonly="*{id != null}"
+                       placeholder="请再次输入密码" data-th-value="*{password}">
+            </div>
+            <div class="form-group">
+                <label for="realName">真实姓名</label>
+                <input name="realName" class="form-control" id="realName" required
+                       placeholder="请输入真实姓名" data-th-value="*{realName}">
+            </div>
+            <div class="form-group">
+                <label for="tel">联系方式</label>
+                <input type="tel" name="tel" class="form-control" id="tel"
+                       placeholder="请输入手机号" data-th-value="*{tel}">
+            </div>
+            <div class="form-group">
+                <label for="email">公司邮箱</label>
+                <input type="email" name="email" class="form-control" id="email"
+                       placeholder="请输入公司邮箱" data-th-value="*{email}">
+            </div>
+            <div class="form-group">
+                <label>状态</label>
+                <div class="form-control radio-inline">
+                        <label for="status-unable">禁用</label>
+                        <input id="status-unable" name="enabled" type="radio" value="false"
+                               data-th-checked="*{!enabled}">
+                        <label for="status-normal">可用</label>
+                        <input id="status-normal" name="enabled" type="radio" value="true"
+                               data-th-checked="*{enabled}">
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="card-title form-inline">
+                    <h5 style="margin-right: 2rem">管理员权限列表</h5>
+                    <div class="form-check form-check-inline">
+                        <label for="all">ROOT</label>
+                        <input id="all" type="checkbox" data-th-checked="*{authority eq 'ALL'}">
+                    </div>
+                </div>
+                <div class="form-group" data-th-each="viewGroup : ${views.sideView}" data-th-object="${viewGroup.key}">
+                    <label class="role-group" data-th-text="*{name}"></label>
+                    <div class="form-control">
+                        <div class="form-check checkbox-inline" data-th-each="item : ${viewGroup.value}" data-th-object="${item}">
+                            <label data-th-attr="for=*{role}" data-th-text="*{name}"></label>
+                            <input data-th-id="*{role}" name="authority" type="checkbox" data-th-value="*{role}">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="box-footer">
+            <button id="save-manager" class="btn btn-primary" data-th-text="*{id == null?'添加':'修改'}">保存</button>
+        </div>
+    </form>
+</div>
+<script data-th-inline="javascript">
+    $(function(){
+
+        $("#title").text("编辑管理员信息");
+
+        const ALL = 'ALL';
+        let roles = [[${manager.authority}]];
+        if(roles === ALL) {
+            $("input[name='authority']").iCheck('check');
+        }else{
+            if(roles !== null){
+                let roleArray = roles.split(",");
+                for (let role in roleArray) {
+                    console.log(roleArray[role]);
+                    $("#" + roleArray[role]).iCheck('check');
+                }
+            }
+        }
+
+        $('#all').on('ifChecked', function(){
+            $("input[name='authority']").iCheck('check');
+        });
+
+        // 反选该组
+        $('.role-group').click(function(){
+            $(this).next("div").find("input[name='authority']").each(function(){
+                let $this = $(this);
+                if($this.is(':checked')){
+                    $this.iCheck('uncheck')
+                }else{
+                    $this.iCheck('check');
+                }
+            });
+            changeAll();
+        });
+
+        $("input[name='authority']").on('ifChanged', function(){
+            changeAll();
+        });
+
+        // 根据子项是否全选中改变all按钮的状态
+        function changeAll(){
+            if($("input[name='authority']:not(:checked)").length > 0){
+                $('#all').iCheck('uncheck');
+            }else{
+                $('#all').iCheck('check');
+            }
+        }
+
+        $("input").iCheck({
+            labelHover : false,
+            cursor : true,
+            checkboxClass : 'icheckbox_square-blue',
+            radioClass : 'iradio_square-blue',
+            increaseArea : '20%'
+        });
+
+        $("#save-manager").click(function(){
+            let $form = $("#form-manager");
+            //校验必填项
+            if($form.checkForm()){
+                if($("#password-repeat").val() !== $("#password").val()){
+                    warn("请完善表单", "两次输入密码不一致");
+                }else{
+                    //判断密码是否正确
+                    let manager = $form.serializeObject();
+                    if($("input[name='authority']:not(:checked)").length === 0){
+                        manager.authority = ALL;
+                    }
+                    console.log(manager);
+                    postJson("/manager/edit", manager, () => {
+                        reload();
+                    })
+                }
+            }
+            return false;
+        })
+    })
+</script>

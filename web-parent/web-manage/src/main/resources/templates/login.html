@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>登录</title>
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+  <link rel="stylesheet" data-th-href="@{/css/bootstrap.min.css}">
+  <link rel="stylesheet" data-th-href="@{/css/sweetalert2.min.css}">
+  <link rel="stylesheet" data-th-href="@{/css/font-awesome.min.css}">
+  <link rel="stylesheet" data-th-href="@{/css/ionicons.min.css}">
+  <link rel="stylesheet" data-th-href="@{/css/AdminLTE.min.css}">
+  <link rel="stylesheet" data-th-href="@{/css/blue.css}">
+
+  <link rel="stylesheet" data-th-href="@{/css/google.family.css}"
+        href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+</head>
+<body class="hold-transition login-page">
+<div class="login-box">
+
+  <div class="login-box-body">
+    <p class="login-box-msg">欢迎登录</p>
+
+    <form th:action="@{/login}" method="post">
+      <div class="form-group has-feedback">
+        <input type="text" name="username" class="form-control" placeholder="用户名">
+        <span class="glyphicon glyphicon-user form-control-feedback"></span>
+      </div>
+      <div class="form-group has-feedback">
+        <input type="password" name="password" class="form-control" placeholder="密码">
+        <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+      </div>
+      <br/>
+      <div class="row">
+        <!-- /.col -->
+        <div class="col-xs-12">
+          <button type="submit" class="btn btn-primary btn-block btn-flat">登录</button>
+        </div>
+        <!-- /.col -->
+      </div>
+    </form>
+
+  </div>
+  <!-- /.login-box-body -->
+</div>
+<script data-th-src="@{/js/jquery.min.js}" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script data-th-src="@{/js/bootstrap.min.js}" src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script data-th-src="@{/js/sweetalert2.min.js}" src="https://cdn.bootcss.com/limonte-sweetalert2/7.3.0/sweetalert2.min.js"></script>
+<script th:src="@{/js/icheck.min.js}"></script>
+<script th:if="${param.msg}" th:inline="javascript">
+    swal({
+        type:'error',
+        title:'登录失败!',
+        text:[[${msg}]],
+        confirmButtonText:'<i class="fa fa-thumbs-up"></i> 知道了!',
+        timer: 3000
+    })
+</script>
+<script th:if="${param.logout}" th:inline="javascript">
+    swal({
+        type: 'success',
+        title: '安全退出成功!',
+        showConfirmButton: false,
+        timer: 1000
+    })
+</script>
+<script th:if="${param.changePasswd}" th:inline="javascript">
+    swal({
+        type: 'success',
+        title: '修改密码成功,请重新登录!',
+        showConfirmButton: false,
+        timer: 2000
+    })
+</script>
+<script>
+  $(function () {
+    $('input').iCheck({
+      checkboxClass: 'icheckbox_square-blue',
+      radioClass: 'iradio_square-blue',
+      increaseArea: '20%' /* optional */
+    });
+  });
+</script>
+</body>
+</html>

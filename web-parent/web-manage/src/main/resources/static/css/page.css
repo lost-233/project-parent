@@ -1,0 +1,13 @@
+#paginate_container > a , span{
+    /*font-size: 15px;*/
+    margin:0 4px;
+}
+#paginate_container > input{
+    width: 22px;
+    height: 22px;
+    margin:0 4px;
+}
+#paginate_container{
+    margin-top: 3px;
+    margin-right: 40px;
+}
