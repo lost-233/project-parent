@@ -23,6 +23,7 @@ public class ManagerProxy extends Manager implements UserDetails {
 
     public ManagerProxy(Manager manager) {
         this.id = manager.getId();
+        this.headImage = manager.getHeadImage();
         this.username = manager.getUsername();
         this.password = manager.getPassword();
         this.enabled = manager.getEnabled();

@@ -5,11 +5,11 @@ $(function(){
         var version = $(this).next().find(".version").text();
         console.log(serviceName + ":" + method);
         var serviceDocument = getDocumentByName(serviceName,method,version);
-        console.log(serviceDocument)
+        console.log(serviceDocument);
         $("#param-title").text(serviceDocument.description + "  -  参数列表");
         $("#service-method").text(serviceDocument.method);
-
-        var href = "http://192.168.1.228:3000/huhuixin/"+gitName+"/src/doc/src/main/java/" + serviceDocument.response.replace(/\./g, "/") + ".java";
+        $(this).find("b").text(serviceDocument.description);
+        var href = "https://github.com/lost-233/project-parent/tree/master/platform-parent/"+gitName+"/src/main/java/" + serviceDocument.response.replace(/\./g, "/") + ".java";
         $("#service-response").text(serviceDocument.response);
 
 

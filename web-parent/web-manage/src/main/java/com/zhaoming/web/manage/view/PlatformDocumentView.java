@@ -30,7 +30,7 @@ public class PlatformDocumentView extends BaseView{
 
     @GetMapping(APP)
     public ModelAndView app(Model model, ObjectMapper objectMapper) throws IOException {
-        model.addAttribute(GIT_NAME, "ims-app-platform");
+        model.addAttribute(GIT_NAME, "test-platform");
         return getModelAndView(model, objectMapper, platformClient.getDocument());
     }
 

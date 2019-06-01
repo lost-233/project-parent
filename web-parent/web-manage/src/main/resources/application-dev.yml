@@ -15,3 +15,12 @@ server:
 logging:
   level:
     root: INFO
+#fastdfs 配置
+fdfs:
+  so-timeout: 1500
+  connect-timeout: 600
+#  thumb-image:
+#    width: 150
+#    height: 150
+  tracker-list:
+    - 47.104.192.107:22122

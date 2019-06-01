@@ -27,6 +27,10 @@ public class Manager extends Model<Manager> {
     protected Integer id;
 
     /**
+     * 头像
+     */
+    protected String headImage;
+    /**
      * 用户名
      */
     protected String username;

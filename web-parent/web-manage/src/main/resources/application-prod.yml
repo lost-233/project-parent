@@ -12,3 +12,12 @@ eureka:
 server:
   tomcat:
     basedir: /home/service/manage/temp
+#fastdfs 配置
+fdfs:
+  so-timeout: 1500
+  connect-timeout: 600
+#  thumb-image:
+#    width: 150
+#    height: 150
+  tracker-list:
+    - 10.3.10.173:2212

@@ -26,8 +26,8 @@
 <div class="wrapper">
     <header class="main-header">
         <a href="javascript:void(0)" class="logo">
-            <span class="logo-mini">JBT</span>
-            <span class="logo-lg">金奔腾科技</span>
+            <span class="logo-mini">XXX</span>
+            <span class="logo-lg">XXXXX</span>
         </a>
         <nav class="navbar navbar-static-top" role="navigation">
             <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
@@ -37,12 +37,14 @@
                 <ul class="nav navbar-nav">
                     <li class="dropdown user user-menu">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                            <img data-th-src="@{/images/jbt.png}" class="user-image" alt="User Image">
+                            <img data-th-if="*{user.headImage == null}" data-th-src="@{/images/manager.png}" class="user-image" alt="User Image">
+                            <img data-th-if="*{user.headImage != null}" data-th-src="*{user.headImage}" class="user-image" alt="User Image">
                             <span class="hidden-xs" data-th-text="${user.realName}">管理员</span>
                         </a>
                         <ul class="dropdown-menu">
                             <li class="user-header">
-                                <img data-th-src="@{/images/jbt.png}" class="img-circle" alt="User Image">
+                                <img data-th-if="*{user.headImage == null}" data-th-src="@{/images/manager.png}" class="img-circle" alt="User Image">
+                                <img data-th-if="*{user.headImage != null}" data-th-src="*{user.headImage}" class="img-circle" alt="User Image">
                                 <p>
                                     <span data-th-text="${' - ' + user.username}"></span>
                                     <small>2017-12-18</small>
@@ -64,7 +66,7 @@
     </header>
     <aside class="main-sidebar">
         <section class="sidebar">
-            <ul id="jbt-menu" class="sidebar-menu" data-widget="tree">
+            <ul id="manager-menu" class="sidebar-menu" data-widget="tree">
                 <li class="header">菜单列表</li>
                 <li class="treeview" data-th-each="viewGroup : ${views.sideView}">
                     <a href="javascript:void(0)" data-th-object="${viewGroup.key}">
@@ -88,7 +90,7 @@
     <div class="content-wrapper">
         <section class="content-header">
             <h1>
-                金奔腾后台管理
+                XXX后台管理
                 <small id="title">主页</small>
             </h1>
             <ol class="breadcrumb">
@@ -103,7 +105,7 @@
         </section>
     </div>
     <footer class="main-footer">
-        <strong>2017 &copy; <a href="#">金奔腾科技</a>.</strong>
+        <strong>2019 &copy; <a href="http://www.beian.gov.cn">京ICP备18032835号</a>.</strong>
     </footer>
 </div>
 <script data-th-src="@{/js/jquery.min.js}" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>

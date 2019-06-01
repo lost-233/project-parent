@@ -7,9 +7,9 @@ $(function() {
         loadPage($(this).attr("data-url"),{});
     })
     //一级菜单
-    $("#jbt-menu").click(function(){
+    $("#manager-menu").click(function(){
         //获取当前打开的菜单,如果没有,则设置为主页
-        var $surMenu = $("#jbt-menu").find("li.menu-open");
+        var $surMenu = $("#manager-menu").find("li.menu-open");
         var firstPath = "主页";
         if($surMenu.length > 0){
             firstPath = $($surMenu[0]).find(".menu-name").text();
@@ -18,7 +18,7 @@ $(function() {
         $("#path-second-menu").text("");
     })
     //二级菜单
-    $("#jbt-menu>li>ul>li").click(function(){
+    $("#manager-menu>li>ul>li").click(function(){
         $("#path-second-menu").text($(this).text());
         //阻止事件继续冒泡
         return false;

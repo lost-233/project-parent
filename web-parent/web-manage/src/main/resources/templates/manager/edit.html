@@ -6,6 +6,15 @@
         </div>
         <div class="box-body">
             <div class="form-group">
+                <label for="headImage">头像</label>
+                <img data-th-if="*{headImage != null}" id="image" data-th-src="*{headImage}" class="img-circle" alt="头像"
+                     width="50px" height="50px">
+                <img data-th-if="*{headImage == null}" id="image" data-th-src="@{/images/manager.png}" class="img-circle" alt="头像"
+                     width="50px" height="50px">
+                <input type="hidden" name="headImage" id="headImage">
+                <input type="file" id="imageIn" accept="image/gif,image/jpeg,image/jpg,image/png">
+            </div>
+            <div class="form-group">
                 <label for="username">登录名称</label>
                 <input name="username" class="form-control" id="username" required
                        data-th-readonly="*{id != null}"
@@ -41,12 +50,12 @@
             <div class="form-group">
                 <label>状态</label>
                 <div class="form-control radio-inline">
-                        <label for="status-unable">禁用</label>
-                        <input id="status-unable" name="enabled" type="radio" value="false"
-                               data-th-checked="*{!enabled}">
-                        <label for="status-normal">可用</label>
-                        <input id="status-normal" name="enabled" type="radio" value="true"
-                               data-th-checked="*{enabled}">
+                    <label for="status-unable">禁用</label>
+                    <input id="status-unable" name="enabled" type="radio" value="false"
+                           data-th-checked="*{!enabled}">
+                    <label for="status-normal">可用</label>
+                    <input id="status-normal" name="enabled" type="radio" value="true"
+                           data-th-checked="*{enabled}">
                 </div>
             </div>
             <div class="card-body">
@@ -60,7 +69,8 @@
                 <div class="form-group" data-th-each="viewGroup : ${views.sideView}" data-th-object="${viewGroup.key}">
                     <label class="role-group" data-th-text="*{name}"></label>
                     <div class="form-control">
-                        <div class="form-check checkbox-inline" data-th-each="item : ${viewGroup.value}" data-th-object="${item}">
+                        <div class="form-check checkbox-inline" data-th-each="item : ${viewGroup.value}"
+                             data-th-object="${item}">
                             <label data-th-attr="for=*{role}" data-th-text="*{name}"></label>
                             <input data-th-id="*{role}" name="authority" type="checkbox" data-th-value="*{role}">
                         </div>
@@ -74,16 +84,16 @@
     </form>
 </div>
 <script data-th-inline="javascript">
-    $(function(){
+    $(function () {
 
         $("#title").text("编辑管理员信息");
 
         const ALL = 'ALL';
         let roles = [[${manager.authority}]];
-        if(roles === ALL) {
+        if (roles === ALL) {
             $("input[name='authority']").iCheck('check');
-        }else{
-            if(roles !== null){
+        } else {
+            if (roles !== null) {
                 let roleArray = roles.split(",");
                 for (let role in roleArray) {
                     console.log(roleArray[role]);
@@ -92,63 +102,89 @@
             }
         }
 
-        $('#all').on('ifChecked', function(){
+        $('#all').on('ifChecked', function () {
             $("input[name='authority']").iCheck('check');
         });
 
         // 反选该组
-        $('.role-group').click(function(){
-            $(this).next("div").find("input[name='authority']").each(function(){
+        $('.role-group').click(function () {
+            $(this).next("div").find("input[name='authority']").each(function () {
                 let $this = $(this);
-                if($this.is(':checked')){
+                if ($this.is(':checked')) {
                     $this.iCheck('uncheck')
-                }else{
+                } else {
                     $this.iCheck('check');
                 }
             });
             changeAll();
         });
 
-        $("input[name='authority']").on('ifChanged', function(){
+        $("input[name='authority']").on('ifChanged', function () {
             changeAll();
         });
 
         // 根据子项是否全选中改变all按钮的状态
-        function changeAll(){
-            if($("input[name='authority']:not(:checked)").length > 0){
+        function changeAll() {
+            if ($("input[name='authority']:not(:checked)").length > 0) {
                 $('#all').iCheck('uncheck');
-            }else{
+            } else {
                 $('#all').iCheck('check');
             }
         }
 
         $("input").iCheck({
-            labelHover : false,
-            cursor : true,
-            checkboxClass : 'icheckbox_square-blue',
-            radioClass : 'iradio_square-blue',
-            increaseArea : '20%'
+            labelHover: false,
+            cursor: true,
+            checkboxClass: 'icheckbox_square-blue',
+            radioClass: 'iradio_square-blue',
+            increaseArea: '20%'
         });
-
-        $("#save-manager").click(function(){
+        $("#imageIn").change(function () {
+            var fileElement = $("#imageIn")[0].files[0];
+            if (fileElement == null) {
+                return false;
+            }
+            console.log(fileElement)
+            var formData = new FormData();
+            formData.append("file", fileElement);
+            $.ajax({
+                type: "POST",
+                data: formData,
+                url: "/manager/upload",
+                contentType: false,
+                processData: false,
+                success:function (data) {
+                    if (data.ok){
+                        console.log(data);
+                        $("#image").attr("src", data.data);
+                        $("#headImage").val(data.data);
+                        success("完成","上传完成",null);
+                    }
+                },
+                error:function (data) {
+                    warn("图片上传失败", "请重新上传"+data.message);
+                }
+            });
+        });
+        $("#save-manager").click(function () {
             let $form = $("#form-manager");
             //校验必填项
-            if($form.checkForm()){
-                if($("#password-repeat").val() !== $("#password").val()){
+            if ($form.checkForm()) {
+                if ($("#password-repeat").val() !== $("#password").val()) {
                     warn("请完善表单", "两次输入密码不一致");
-                }else{
+                } else {
                     //判断密码是否正确
                     let manager = $form.serializeObject();
-                    if($("input[name='authority']:not(:checked)").length === 0){
+                    if ($("input[name='authority']:not(:checked)").length === 0) {
                         manager.authority = ALL;
                     }
                     console.log(manager);
                     postJson("/manager/edit", manager, () => {
                         reload();
-                    })
+                })
                 }
             }
             return false;
-        })
-    })
+        });
+    });
 </script>
